@@ -1,0 +1,252 @@
+etapa <- c("Etapa 1", "Etapa 2", "Total")
+b19 <- c(9819930, 7046707, 16866637)
+rb51j <- c(115753, 114403, 230156)
+rb51a <- c(32513, 48467, 80980)
+totalj <- b19 + rb51j
+
+ano_2020 <- 
+  data.frame(
+    etapa = etapa, 
+    b19 = b19, 
+    rb51j = rb51j, 
+    rb51a = rb51a, 
+    totalj = totalj, 
+    total_rb51 = rb51j + rb51a,
+    total = totalj + rb51j + rb51a)
+
+ano_2020 %>% 
+  pivot_longer(cols = ! etapa,
+               names_to = "vac",
+               values_to = "doses") %>% 
+  mutate(idade = 
+           ifelse(
+             vac == "b19",
+             "3-8m",
+             ifelse(
+               vac == "rb51j",
+               "3-8m",
+               ifelse(
+                 vac == "rb51a",
+                 "acima 8m",
+                 ifelse(
+                   vac == "totalj",
+                   "3-8m",
+                   ifelse(
+                     vac == "total_rb51",
+                     "rb51",
+                     ifelse(
+                       vac == "total",
+                       "Total",
+                       "ERRO"
+                     )
+                   )
+                 )
+               )
+             )
+           )) %>% 
+  filter(vac != "total_rb51" &
+           vac != "rb51a" & 
+           vac != "total") %>% 
+  mutate(vac2 = factor(vac,
+                       levels = c("b19",
+                                  "rb51j",
+                                  "totalj",
+                                  "total_rb51",
+                                  "rb51a",
+                                  "total"),
+                       labels = c("B19",
+                                  "RB51",
+                                  "Total",
+                                  "Total-RB51",
+                                  "RB51",
+                                  "Total"))) %>% 
+  ggplot(
+    aes(etapa,
+        doses,
+        fill = vac2,
+        label = doses),
+    data = .
+  ) +
+  geom_col(
+    fill = rep(c("lightblue", 
+             "lightgreen",
+             "lightblue4"),
+             each = 3)) +
+  facet_grid( ~ vac2) +
+  geom_text(position="stack") +
+  xlab(NULL) +
+  ylab("Animais Vacinados")
+
+
+
+
+ano_2020 %>% 
+  pivot_longer(cols = ! etapa,
+               names_to = "vac",
+               values_to = "doses") %>% 
+  mutate(idade = 
+           ifelse(
+             vac == "b19",
+             "3-8m",
+             ifelse(
+               vac == "rb51j",
+               "3-8m",
+               ifelse(
+                 vac == "rb51a",
+                 "acima 8m",
+                 ifelse(
+                   vac == "totalj",
+                   "3-8m",
+                   ifelse(
+                     vac == "total_rb51",
+                     "rb51",
+                     ifelse(
+                       vac == "total",
+                       "Total",
+                       "ERRO"
+                     )
+                   )
+                 )
+               )
+             )
+           )) %>% 
+  filter(vac != "b19" &
+           # vac != "rb51j" & 
+           vac != "total" &
+           vac != "totalj") %>% 
+  mutate(vac2 = factor(vac,
+                       levels = c("b19",
+                                  "rb51j",
+                                  "rb51a",
+                                  "totalj",
+                                  "total_rb51",
+                                  "total"),
+                       labels = c("B19",
+                                  "RB51 3-8m",
+                                  "RB51 acima 8m",
+                                  "Total",
+                                  "Total",
+                                  "Total"))) %>% 
+  ggplot(
+    aes(etapa,
+        doses,
+        fill = vac2,
+        label = doses),
+    data = .
+  ) +
+  geom_col(
+    fill = rep(c("lightgreen", 
+                 "lightgreen",
+                 "lightblue4"),
+               each = 3)) +
+  facet_grid( ~ vac2) +
+  geom_text(position="stack") +
+  xlab(NULL) +
+  ylab("Animais Vacinados")
+
+
+
+ano_2020 %>% 
+  pivot_longer(cols = ! etapa,
+               names_to = "vac",
+               values_to = "doses") %>% 
+  mutate(idade = 
+           ifelse(
+             vac == "b19",
+             "3-8m",
+             ifelse(
+               vac == "rb51j",
+               "3-8m",
+               ifelse(
+                 vac == "rb51a",
+                 "acima 8m",
+                 ifelse(
+                   vac == "totalj",
+                   "3-8m",
+                   ifelse(
+                     vac == "total_rb51",
+                     "rb51",
+                     ifelse(
+                       vac == "total",
+                       "Total",
+                       "ERRO"
+                     )
+                   )
+                 )
+               )
+             )
+           )) %>% 
+  filter(vac != "b19" &
+           vac != "rb51j" &
+           # vac != "totalj" &
+           vac != "total_rb51") %>% 
+  mutate(vac2 = factor(vac,
+                       levels = c("b19",
+                                  "rb51j",
+                                  "rb51a",
+                                  "totalj",
+                                  "total_rb51",
+                                  "total"),
+                       labels = c("B19",
+                                  "RB51 3-8m",
+                                  "RB51 acima 8m",
+                                  "Total 3-8m",
+                                  "Total",
+                                  "Total"))) %>% 
+  ggplot(
+    aes(etapa,
+        doses,
+        fill = vac2,
+        label = doses),
+    data = .
+  ) +
+  geom_col(
+    fill = rep(c("lightgreen", 
+                 "lightblue4",
+                 "lightblue4"),
+               each = 3)) +
+  facet_grid( ~ vac2) +
+  geom_text(position="stack") +
+  xlab(NULL) +
+  ylab("Animais Vacinados")
+
+
+
+
+vacinas <- c("B19", "RB51")
+solicitado <- c(24145564, 5333555)
+produzido <- c(23550800, 1207750)
+utilizado <- c(b19[3], rb51j[3] + rb51a[3])
+
+ano_2020_spu <- 
+  data.frame(
+    vacinas = vacinas, 
+    solicitado = solicitado, 
+    produzido = produzido, 
+    utilizado = utilizado)
+
+
+ano_2020_spu %>% 
+  pivot_longer(cols = !Vacina, 
+               names_to = "tipo", 
+               values_to = "n") %>% 
+  mutate(tipo = 
+           factor(
+             tipo, 
+             levels = c("Solicitado", 
+                        "Produzido", 
+                        "Utilizado"))) %>% 
+  ggplot(
+    aes(tipo,
+        n, 
+        fill = Vacina, 
+        label = n), 
+    data = .) + 
+  geom_col(
+    fill = rep(c("lightblue", 
+                 "lightgreen"), 
+               each = 3)) + 
+  facet_grid(~ Vacina) +
+  geom_text(position="stack") + 
+  xlab(NULL) + 
+  ylab("Número de Doses")

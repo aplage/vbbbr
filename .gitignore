@@ -1,0 +1,10 @@
+.Rproj.user
+*.Rhistory
+*.RData
+*.Ruserdata
+*.xls
+*.xlsx
+*.zip
+data/
+mail/
+*.Rproj

@@ -19,7 +19,8 @@ files_to_check <-
   ) %>% 
   (function(nm){
     
-    names(nm) <- estados %>% 
+    names(nm) <- 
+      estados %>% 
       select(sigla) %>% 
       unlist()
     
@@ -29,3 +30,19 @@ files_to_check <-
     .,
     ~sort(.x)
   )
+
+# Theoretically we should have 6 files per state, therefore to further check the 
+# files we are selecting the states that presented different number of files per state
+
+files_to_check[
+  files_to_check %>% 
+    map(length) %>% 
+    bind_rows() %>%
+    t() %>% 
+    as.data.frame() %>% 
+    filter(V1 != 6) %>% 
+    rownames_to_column() %>% 
+    rename(estado = rowname) %>% 
+    select(estado) %>% 
+    unlist()
+  ]
